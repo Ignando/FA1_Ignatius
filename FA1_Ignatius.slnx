@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ATM/ATM.csproj" />
+  <Project Path="DigitalIdentityProcessor/DigitalIdentityProcessor.csproj" Id="c4554068-fc8d-492d-872b-88e5f1bf607b" />
+  <Project Path="LanguageList/LanguageList.csproj" />
+  <Project Path="Municipality/Municipality.csproj" Id="203a6362-99e0-4328-9d11-a2715bb317f5" />
+  <Project Path="StudentMarks/StudentMarks.csproj" />
+</Solution>
