@@ -1,7 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DigitalIdentityProcessor
 {
     public class CitizenProfile
@@ -21,17 +17,64 @@ namespace DigitalIdentityProcessor
 
         private int CalculateAge()
         {
-            // Extract YYMMDD from first 6 digits
-            // Determine century (19xx or 20xx)
-            // Return calculated age
+            if (string.IsNullOrWhiteSpace(IDNumber) || IDNumber.Length < 6 || !IDNumber.Take(6).All(char.IsDigit))
+            {
+                return -1;
+            }
+
+            var year = int.Parse(IDNumber[..2]);
+            var month = int.Parse(IDNumber.Substring(2, 2));
+            var day = int.Parse(IDNumber.Substring(4, 2));
+
+            var currentYear = DateTime.Today.Year % 100;
+            var century = year <= currentYear ? 2000 : 1900;
+
+            try
+            {
+                var birthDate = new DateTime(century + year, month, day);
+                var age = DateTime.Today.Year - birthDate.Year;
+
+                if (birthDate.Date > DateTime.Today.AddYears(-age))
+                {
+                    age--;
+                }
+
+                return age;
+            }
+            catch
+            {
+                return -1;
+            }
         }
 
         public string ValidateID()
         {
-            // Check length == 13
-            // Check all numeric
-            // Validate age is reasonable
-            // Return validation message
+            if (string.IsNullOrWhiteSpace(IDNumber))
+            {
+                return "Invalid ID: number is required.";
+            }
+
+            if (IDNumber.Length != 13)
+            {
+                return "Invalid ID: South African IDs must contain 13 digits.";
+            }
+
+            if (!IDNumber.All(char.IsDigit))
+            {
+                return "Invalid ID: only numeric characters are allowed.";
+            }
+
+            if (Age < 0 || Age > 130)
+            {
+                return "Invalid ID: embedded birth date is not valid.";
+            }
+
+            if (string.IsNullOrWhiteSpace(CitizenshipStatus))
+            {
+                return "Invalid profile: citizenship status is required.";
+            }
+
+            return $"Valid ID profile. Citizen age verified as {Age}.";
         }
     }
 }
