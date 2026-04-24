@@ -29,13 +29,16 @@ namespace DigitalIdentityProcessor
         private void InitializeComponent()
         {
             panelHeader = new Panel();
+            btnMinimize = new Button();
+            btnClose = new Button();
             lblStatus = new Label();
             lblSubtitle = new Label();
             lblTitle = new Label();
             panelForm = new Panel();
             btnClear = new Button();
-            btnProcess = new Button();
-            txtCitizenship = new TextBox();
+            btnGenerateProfile = new Button();
+            btnValidate = new Button();
+            cmbCitizenship = new ComboBox();
             txtIdNumber = new TextBox();
             txtName = new TextBox();
             lblCitizenship = new Label();
@@ -57,6 +60,8 @@ namespace DigitalIdentityProcessor
             // 
             // panelHeader
             // 
+            panelHeader.Controls.Add(btnMinimize);
+            panelHeader.Controls.Add(btnClose);
             panelHeader.Controls.Add(lblStatus);
             panelHeader.Controls.Add(lblSubtitle);
             panelHeader.Controls.Add(lblTitle);
@@ -64,6 +69,27 @@ namespace DigitalIdentityProcessor
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(932, 105);
             panelHeader.TabIndex = 0;
+            panelHeader.MouseDown += panelHeader_MouseDown;
+            // 
+            // btnMinimize
+            // 
+            btnMinimize.Location = new Point(822, 18);
+            btnMinimize.Name = "btnMinimize";
+            btnMinimize.Size = new Size(40, 32);
+            btnMinimize.TabIndex = 4;
+            btnMinimize.Text = "–";
+            btnMinimize.UseVisualStyleBackColor = true;
+            btnMinimize.Click += btnMinimize_Click;
+            // 
+            // btnClose
+            // 
+            btnClose.Location = new Point(872, 18);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(40, 32);
+            btnClose.TabIndex = 3;
+            btnClose.Text = "X";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // lblStatus
             // 
@@ -98,8 +124,9 @@ namespace DigitalIdentityProcessor
             // panelForm
             // 
             panelForm.Controls.Add(btnClear);
-            panelForm.Controls.Add(btnProcess);
-            panelForm.Controls.Add(txtCitizenship);
+            panelForm.Controls.Add(btnGenerateProfile);
+            panelForm.Controls.Add(btnValidate);
+            panelForm.Controls.Add(cmbCitizenship);
             panelForm.Controls.Add(txtIdNumber);
             panelForm.Controls.Add(txtName);
             panelForm.Controls.Add(lblCitizenship);
@@ -113,33 +140,46 @@ namespace DigitalIdentityProcessor
             // btnClear
             // 
             btnClear.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnClear.Location = new Point(162, 275);
+            btnClear.Location = new Point(31, 329);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(111, 38);
-            btnClear.TabIndex = 7;
+            btnClear.Size = new Size(242, 38);
+            btnClear.TabIndex = 8;
             btnClear.Text = "RESET GRID";
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
-            // btnProcess
+            // btnGenerateProfile
             // 
-            btnProcess.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnProcess.Location = new Point(31, 275);
-            btnProcess.Name = "btnProcess";
-            btnProcess.Size = new Size(111, 38);
-            btnProcess.TabIndex = 6;
-            btnProcess.Text = "PROCESS";
-            btnProcess.UseVisualStyleBackColor = true;
-            btnProcess.Click += btnProcess_Click;
+            btnGenerateProfile.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGenerateProfile.Location = new Point(31, 275);
+            btnGenerateProfile.Name = "btnGenerateProfile";
+            btnGenerateProfile.Size = new Size(136, 38);
+            btnGenerateProfile.TabIndex = 6;
+            btnGenerateProfile.Text = "GENERATE PROFILE";
+            btnGenerateProfile.UseVisualStyleBackColor = true;
+            btnGenerateProfile.Click += btnGenerateProfile_Click;
             // 
-            // txtCitizenship
+            // btnValidate
             // 
-            txtCitizenship.Font = new Font("Segoe UI", 11F);
-            txtCitizenship.Location = new Point(31, 219);
-            txtCitizenship.Name = "txtCitizenship";
-            txtCitizenship.PlaceholderText = "Citizen / Permanent Resident";
-            txtCitizenship.Size = new Size(242, 27);
-            txtCitizenship.TabIndex = 5;
+            btnValidate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnValidate.Location = new Point(177, 275);
+            btnValidate.Name = "btnValidate";
+            btnValidate.Size = new Size(96, 38);
+            btnValidate.TabIndex = 7;
+            btnValidate.Text = "VALIDATE ID";
+            btnValidate.UseVisualStyleBackColor = true;
+            btnValidate.Click += btnValidate_Click;
+            // 
+            // cmbCitizenship
+            // 
+            cmbCitizenship.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCitizenship.Font = new Font("Segoe UI", 11F);
+            cmbCitizenship.FormattingEnabled = true;
+            cmbCitizenship.Items.AddRange(new object[] { "Citizen", "Permanent Resident", "Visitor" });
+            cmbCitizenship.Location = new Point(31, 219);
+            cmbCitizenship.Name = "cmbCitizenship";
+            cmbCitizenship.Size = new Size(242, 28);
+            cmbCitizenship.TabIndex = 5;
             // 
             // txtIdNumber
             // 
@@ -265,7 +305,7 @@ namespace DigitalIdentityProcessor
             Controls.Add(panelOutput);
             Controls.Add(panelForm);
             Controls.Add(panelHeader);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -282,13 +322,16 @@ namespace DigitalIdentityProcessor
         #endregion
 
         private Panel panelHeader;
+        private Button btnMinimize;
+        private Button btnClose;
         private Label lblStatus;
         private Label lblSubtitle;
         private Label lblTitle;
         private Panel panelForm;
         private Button btnClear;
-        private Button btnProcess;
-        private TextBox txtCitizenship;
+        private Button btnGenerateProfile;
+        private Button btnValidate;
+        private ComboBox cmbCitizenship;
         private TextBox txtIdNumber;
         private TextBox txtName;
         private Label lblCitizenship;
